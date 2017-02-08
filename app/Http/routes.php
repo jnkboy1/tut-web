@@ -39,7 +39,7 @@ Route::get('/home', 'HomeController@index');
 |
 */
 
-Route::post('/status/create','StatusController@create')->name('create_status');
-Route::get('/status/{id}/like','StatusController@like')->name('like_status');
-Route::get('/likes/{id}/unlike','StatusController@unlike')->name('unlike_status');
+// Route::post('/status/create','StatusController@create')->name('create_status');
+// Route::get('/status/{id}/like','StatusController@like')->name('like_status');
+// Route::get('/likes/{id}/unlike','StatusController@unlike')->name('unlike_status');
 
