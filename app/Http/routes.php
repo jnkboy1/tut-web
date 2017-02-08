@@ -15,13 +15,8 @@ use codetech\Status;
 
 
 Route::get('/', function () {
-    $status = Status::all();
-    $user = Auth::user();
-    $data = array(
-        'status' => $status,
-        'user' => $user,
-    );
-    return view('welcome')->with($data);
+    
+    return view('welcome');
 });
 
 Route::get('/welcome',function(){
