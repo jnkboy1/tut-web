@@ -12,11 +12,20 @@
 */
 
 use codetech\Status;
+use codetech\Article;
 
 
 Route::get('/', function () {
+
+    if(is_logged_in())
+    {
+        $articles = Article::all(); 
+        return view('welcome',compact(['articles',$articles]));
+    }
+    else{
+        return redirect('/login');
+    }
     
-    return view('welcome');
 });
 
 Route::get('/welcome',function(){
@@ -34,7 +43,28 @@ Route::get('/home', 'HomeController@index');
 |
 */
 
-// Route::post('/status/create','StatusController@create')->name('create_status');
-// Route::get('/status/{id}/like','StatusController@like')->name('like_status');
-// Route::get('/likes/{id}/unlike','StatusController@unlike')->name('unlike_status');
+Route::post('/status/create','StatusController@create')->name('create_status');
+Route::get('/status/{id}/destroy','StatusController@destroy')->name('destroy_status');
+Route::get('/status/{id}/like','StatusController@like')->name('like_status');
+Route::get('/likes/{id}/unlike','StatusController@unlike')->name('unlike_status');
 
+
+/*
+| for articles
+|
+|
+|
+*/
+
+Route::resource('articles',
+'ArticleController');
+
+
+/* for tutorials */
+Route::get('tutorials','TutorialController@index');
+Route::get('tutorial/{tag}','TutorialController@show');
+
+
+/* for codex */
+Route::get('codex','CodexController@index');
+Route::get('codex/result', 'CodexController@result');

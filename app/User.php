@@ -29,4 +29,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('codetech\Status');
     }
+
+    public function articles()
+    {
+        return $this->hasMany('codetech\Article');
+    }
 }

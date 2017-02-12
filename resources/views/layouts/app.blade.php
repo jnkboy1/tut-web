@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
@@ -23,10 +23,33 @@
         .fa-btn {
             margin-right: 6px;
         }
+        #app-login{
+            background:url('{{ "img/bg.jpg" }}') no-repeat center center fixed;
+            background-size:cover;
+        }
+
+        #login_left_text{
+            color:white;
+        }
+
+        .navbar-brand > .fa-code{
+            color:green;
+        }
+
+        .navbar{
+            background:#1d3b4f;
+        }
     </style>
 </head>
-<body id="app-layout">
-    <nav class="navbar navbar-inverse navbar-static-top">
+<?php
+    if(Auth::user()){
+        echo '<body id="app-layout">';
+    }
+    else{
+        echo '<body id="app-login">';
+    }
+?>
+    <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
 
@@ -39,26 +62,29 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Facedub
+                <a style="color:white" class="navbar-brand" href="{{ url('/') }}">
+                    <span class="fa fa-code"></span>
+                    Codetech
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">Home</a></li>
+                    <li><a style="color:white" href="{{ url('/home') }}">Home</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ url('/login') }}">Login</a></li>
-                        <li><a href="{{ url('/register') }}">Register</a></li>
+                        <li><a href="{{ url('/login') }}" style="color:white">Login</a></li>
+                        <li><a href="{{ url('/register') }}" style="color:white">Register</a></li>
                     @else
+                        <li><a href="/articles/create" style="color:white">New Article</a></li>
+                        <li><a href="/tutorials" style="color:white">Tutorials</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <a href="#" style="color:white" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
@@ -71,13 +97,36 @@
             </div>
         </div>
     </nav>
-    @include('flash::message')
+  <div class="container">
+    <div class="row">
+        <div class="col-md-5">
+              @include('flash::message')
+        </div>
+    </div>
+  </div>
     @yield('content')
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    <!--<script src="js/bootstrap.min.js"></script>-->
     <script src="js/like.js"></script>
+    <script src="{{ URL::asset('js/vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+    <!--/*<script src="{{ URL::asset('js/vendor/tinymce/js/tinymce/themes/modern/theme.min.js' )}}"></script>*/-->
+    <script src="{{ URL::asset('js/tinymce_config.js') }}"></script>
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            height:"380",
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table contextmenu paste"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+        });
+    </script>
+    
 </body>
 </html>

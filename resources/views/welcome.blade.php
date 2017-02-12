@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-2">
-            <div class="panel panel-success">
+            <!-- <div class="panel panel-success">
                 <div class="panel-heading">Welcome</div>
 
                 <div class="panel-body">
@@ -18,13 +18,21 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            @foreach($status as $s) 
-                <b>{{ $s->text }}</b> by {{ $s->user->name }} <span style="color:gray"> {{ $s->created_at->diffForHumans() }}</span> 
+            </div> -->
+            @foreach($articles as $a) 
+                <a href="articles/{{ $a->id }}">{{ $a->title }}</a> by {{ $a->user->name }} <span style="color:gray"> {{ $a->updated_at->diffForHumans() }}</span> 
+                
+                <div class="">
+                    <a href="articles/{{ $a->id }}/edit" class="">Edit</a>
+                    {!! Form::open([
+                        'method' => 'DELETE',
+                        'route' => ['articles.destroy', $a->id]
+                    ]) !!}
+                        {!! Form::submit('Delete this Article', ['class' => '']) !!}
+                    {!! Form::close() !!}
+                </div>
                 <hr> 
-                <a href="status/{{ $s->id }}/like" data-status-id="{{ $s->id }}" class="like_status"><span class="fa fa-heart"></span></a>
-                <span id="likes_count">{{ $s->likes->count() }}</span>
-                <br>
+                
             @endforeach
         </div>
     </div>

@@ -27,6 +27,28 @@ class StatusController extends Controller
 
     }
 
+    public function destroy($id)
+    {
+        $status = Status::find($id);
+        if(is_logged_in())
+        {
+
+            if($status->user_id === get_logged_in_user()->id)
+            {
+                $status->delete();
+                return redirect('/');
+            }
+            else{
+                flash('You can\'t delete other users\'s posts!','danger');
+                return redirect('/');
+            }
+        }
+        else{
+            return redirect('/login');
+        }
+        //return $next($request);
+    }
+
     public function like($id)
     {
         if(Auth::guest())
